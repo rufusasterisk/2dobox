@@ -11,18 +11,20 @@ body {
 }
 
 .idea-log {
-  width: 350px;
+  width: 500px;
+  margin: auto;
 }
 
 h1 {
-  font-family: "Roboto Slab"
+  font-family: "Roboto Slab";
+  text-align: center;
 }
 
-#idea-text {
+.idea-text {
   color: #00A79D;
 }
 
-#box-text {
+.box-text {
   color: #6D6E71;
 }
 
@@ -34,6 +36,7 @@ h1 {
 #save-button {
   color: #FFFFFF;
   background-color: #00A79D;
+  border-style: none;
 }
 
 #save-button:hover {
@@ -48,7 +51,7 @@ h1 {
 .idea-card {
   width: 100%;
   display: flex;
-  border-bottom: solid 2px #D1D3D4;
+  border-bottom: solid 1px #D1D3D4;
 }
 
 h2, h3 {
