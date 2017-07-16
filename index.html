@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>Ideabox</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
 
   <body>
@@ -28,8 +28,15 @@
         </article>
       </section>
       <section class="white-box">
-        <article class="idea-log">
-          <h2>Example Idea<span></span>
+        <article class="idea-log idea-stream" >
+          <div class="idea-card">
+          <h2>${ideaTitle}</h2>
+          <img src="/icons/delete.svg" />
+          <p>${ideaBody}</p>
+          <img src="/icons/upvote.svg" />
+          <img src="/icons/downvote.svg" />
+          <h3>quality: <span class="idea-quality">swill</span></h3>
+          </div>
         </article>
       </section>
     </div>
