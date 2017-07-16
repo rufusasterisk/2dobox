@@ -1,0 +1,60 @@
+
+body {
+  font-family: "Open Sans";
+
+}
+
+.blue-box {
+  background-color: #E5F3F2;
+  margin: 0;
+  width: 100%;
+}
+
+.idea-log {
+  width: 350px;
+}
+
+h1 {
+  font-family: "Roboto Slab"
+}
+
+#idea-text {
+  color: #00A79D;
+}
+
+#box-text {
+  color: #6D6E71;
+}
+
+.user-inputs {
+  width: 100%;
+  height: 30px;
+}
+
+#save-button {
+  color: #FFFFFF;
+  background-color: #00A79D;
+}
+
+#save-button:hover {
+  background-color: #045E55;
+}
+
+.white-box {
+  width: 100%;
+  margin: 0;
+}
+
+.idea-card {
+  width: 100%;
+  display: flex;
+  border-bottom: solid 2px #D1D3D4;
+}
+
+h2, h3 {
+  color: #6D6E71;
+}
+
+p {
+  color: #939598;
+}
