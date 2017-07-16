@@ -1,6 +1,6 @@
 function addCard() {
-  var ideaTitle = document.getElementById("idea-title").value;
-  var ideaBody = document.getElementById("idea-body").value;
+  var ideaTitle = $("#idea-title").val();
+  var ideaBody = $("#idea-body").val();
   $('.idea-stream').prepend(
     `<div class="idea-card">
     <h2>${ideaTitle}</h2>
@@ -14,8 +14,8 @@ function addCard() {
 };
 
 function evalInputs() {
-  var ideaTitle = $('#idea-title').val();
-  var ideaBody = $('#idea-body').val();
+  var ideaTitle = $("#idea-title").val();
+  var ideaBody = $("#idea-body").val();
   if (!ideaTitle) {
     return alert("Please enter a title.");
   } else if (!ideaBody) {
@@ -25,7 +25,7 @@ function evalInputs() {
   }
 };
 
-$('#save-button').on('click', function(event) {
+$("#save-button").on('click', function(event) {
   event.preventDefault();
   evalInputs();
 });
