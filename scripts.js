@@ -13,6 +13,10 @@ function addCard() {
   );
 };
 
+// Creating cards as objects
+// JQuery date.now
+// When creating objects you can check the quality of the card
+
 function evalInputs() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
@@ -34,7 +38,10 @@ $(document).on('click', "#delete-button", function() {
   $(this).parent('.idea-card').remove();
 });
 
-
 $(document).on('click', "#upvote", function() {
   $(this).find('.idea-quality').toggle
+  // if swill then plausible
+  // if plausible then genius
+  // if genius button will be off
+  // jQuery .text similar to a .val()
 });
