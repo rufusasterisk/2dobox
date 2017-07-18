@@ -34,7 +34,12 @@ function resetInputs() {
   $('#save-button')
 };
 
+// Creating cards as objects
+// JQuery date.now
+// When creating objects you can check the quality of the card
+
 // checks to make sure cards have text
+
 function evalInputs() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
@@ -61,9 +66,38 @@ $(document).on('click', "#delete-button", function() {
   $(this).parent('.idea-card').remove();
 });
 
+
+// $(document).on('click', "#upvote", function() {
+//   $(this).find('.idea-quality').toggle
+function increaseSPG() {
+  var ideaQuality = $('.idea-quality').val();
+  if (ideaQuality === 'swill') {
+    return ideaQuality.text('plausible');
+  } else if (ideaQuality === 'plausible') {
+    return ideaQuality.text('genius');
+  } else {
+    $('#upvote-button').disabled = true;
+  }
+});
+
+$('#upvote-button').on('click', function(event) {
+  event.preventDefault();
+  upvoteDisplay();
+});
+
+// function upvoteDisplay() {
+//   $('.idea-quality').text();
+// });
+
+  // if swill then plausible
+  // if plausible then genius
+  // if genius button will be off
+  // jQuery .text similar to a .val()
+
 // buttons to toggle
-$(document).on('click', "#upvote", function() {
-  $(this).find('.idea-quality')
+// $(document).on('click', "#upvote", function() {
+//   $(this).find('.idea-quality')
+
 });
 
 //object to store user created info
