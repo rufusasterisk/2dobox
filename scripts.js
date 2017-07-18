@@ -33,3 +33,8 @@ $("#save-button").on('click', function(event) {
 $(document).on('click', "#delete-button", function() {
   $(this).parent('.idea-card').remove();
 });
+
+
+$(document).on('click', "#upvote", function() {
+  $(this).find('.idea-quality').toggle
+});
