@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <title>Ideabox</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
   </head>
 
   <body>
@@ -23,19 +25,23 @@
       <section class="white-box">
         <article class="idea-log">
           <form>
-            <input id="" type="text" name="search" placeholder="Search">
+            <input id="" class="user-inputs" type="text" name="search" placeholder="Search">
           </form>
         </article>
       </section>
       <section class="white-box">
         <article class="idea-log idea-stream" >
           <div class="idea-card">
-          <h2>${ideaTitle}</h2>
-          <img src="icons/delete.svg" id="delete-button" />
-          <p>${ideaBody}</p>
-          <img src="icons/upvote.svg" />
-          <img src="icons/downvote.svg" />
-          <h3>quality: <span class="idea-quality">swill</span></h3>
+            <div class="card-title-flex">
+              <h2>${ideaTitle}</h2>
+              <img src="icons/delete.svg" class="card-buttons" id="delete-button" />
+            </div>
+            <p>${ideaBody}</p>
+            <div class="card-quality-flex">
+              <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
+              <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
+              <h3>quality: <span class="idea-quality">swill</span></h3>
+            </div>
           </div>
         </article>
       </section>
