@@ -20,6 +20,11 @@ h1 {
   text-align: center;
 }
 
+img {
+  height: 15px;
+  width: 15px;
+}
+
 .idea-text {
   color: #00A79D;
 }
