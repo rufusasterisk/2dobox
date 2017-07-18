@@ -38,8 +38,28 @@ $(document).on('click', "#delete-button", function() {
   $(this).parent('.idea-card').remove();
 });
 
-$(document).on('click', "#upvote", function() {
-  $(this).find('.idea-quality').toggle
+// $(document).on('click', "#upvote", function() {
+//   $(this).find('.idea-quality').toggle
+function increaseSPG() {
+  var ideaQuality = $('.idea-quality').val();
+  if (ideaQuality === 'swill') {
+    return ideaQuality.text('plausible');
+  } else if (ideaQuality === 'plausible') {
+    return ideaQuality.text('genius');
+  } else {
+    $('#upvote-button').disabled = true;
+  }
+});
+
+$('#upvote-button').on('click', function(event) {
+  event.preventDefault();
+  upvoteDisplay();
+});
+
+// function upvoteDisplay() {
+//   $('.idea-quality').text();
+// });
+
   // if swill then plausible
   // if plausible then genius
   // if genius button will be off
