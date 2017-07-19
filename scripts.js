@@ -7,7 +7,7 @@ $(".idea-stream").on('click', ".delete-button", function() {
   $(this).closest('.idea-card').remove();
 });
 
-$('#upvote-button').on('click', increaseSPG);
+$('.idea-stream').on('click', $('#upvote-button'), increaseSPG);
 
 function FreshIdea(title, body) {
   this.title = title;
@@ -19,12 +19,16 @@ function FreshIdea(title, body) {
 //functionality of increaseSPG is still not working properly
 //Upvote/Downvote buttons do not behave the way they should
 function increaseSPG() {
+  console.log("id: ", $(this.id));
   var ideaQuality = $(this).closest('.idea-quality').text();
+  console.log("ideaQuality: ", $(this.closest.id));
   if ($(this).siblings('.idea-quality').text() === "Swill") {
     $(this).siblings('.idea-quality').text('Plausible');
   } else if ($(this).siblings('siblings').text('Plausible')) {
     $(this).text('Genius');
   }
+
+
 };
 
 // writes text for new card
