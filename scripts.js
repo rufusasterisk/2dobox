@@ -63,27 +63,29 @@ $("#save-button").on('click', function(event) {
 
 // delete button
 $(document).on('click', "#delete-button", function() {
-  $(this).parent('.idea-card').remove();
+  $(this).closest('.idea-card').remove();
 });
 
 
 // $(document).on('click', "#upvote", function() {
 //   $(this).find('.idea-quality').toggle
 function increaseSPG() {
-  var ideaQuality = $('.idea-quality').val();
-  if (ideaQuality === 'swill') {
-    return ideaQuality.text('plausible');
-  } else if (ideaQuality === 'plausible') {
-    return ideaQuality.text('genius');
-  } else {
-    $('#upvote-button').disabled = true;
+  var ideaQuality = $('.idea-quality').text();
+  if ($('.idea-quality').text('Swill')) {
+    $('.idea-quality').text('Plausible');
+  } else if ($('.idea-quality').text('Plausible')) {
+    $('.idea-quality').text('Genius');
   }
-});
+};
+  // } else {
+  //   $('#upvote-button').disabled = true;
+  // }
+  //must have this target the immediate container
+  // console.log('is this firing')
 
-$('#upvote-button').on('click', function(event) {
-  event.preventDefault();
-  upvoteDisplay();
-});
+
+$('#upvote-button').on('click', increaseSPG);
+
 
 // function upvoteDisplay() {
 //   $('.idea-quality').text();
@@ -98,13 +100,14 @@ $('#upvote-button').on('click', function(event) {
 // $(document).on('click', "#upvote", function() {
 //   $(this).find('.idea-quality')
 
-});
+
 
 //object to store user created info
 function FreshIdea(title, body) {
   this.title = title;
   this.body = body;
   this.status = "Swill";
+  // this.id =
 }
 
 
