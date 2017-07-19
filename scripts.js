@@ -10,9 +10,24 @@ $(".idea-stream").on('click', ".delete-button", function() {
 
 $('#upvote-button').on('click', increaseSPG);
 
+function FreshIdea(title, body) {
+  this.title = title;
+  this.body = body;
+  this.status = "Swill";
+  this.id = Date.now();
+}
 
 
+function increaseSPG() {
 
+  var ideaQuality = $(this).closest('.idea-quality').text();
+  if ($(this).siblings('.idea-quality').text() === "Swill") {
+    $(this).siblings('.idea-quality').text('Plausible');
+  } else if ($(this).siblings('siblings').text('Plausible')) {
+    $(this).text('Genius');
+  }
+  console.log("objects ID: ", object.id)
+};
 
 // writes text for new card
 function addCard() {
@@ -20,19 +35,17 @@ function addCard() {
   var ideaBody = $("#idea-body").val();
   var newIdea = new FreshIdea(ideaTitle, ideaBody);
   prependCard(newIdea);
-  console.log("addCard1: ", newIdea);
   sendIdeaToStorage(newIdea);
-  console.log("addCard2: ", newIdea);
 };
 
 function sendIdeaToStorage(object) {
-  var uniqueIdeaId = object.id
+  var uniqueIdeaId = object.id;
   localStorage.setItem(uniqueIdeaId, JSON.stringify(object));
-  console.log("send to storage: ", object)
 }
 
 function getIdeaFromStorage(object) {
-
+  var uniqueIdeaId = object.id;
+  localStorage.getItem(uniqueIdeaId, JSON.parse(object));
 }
 
 function prependCard(idea) {
@@ -84,44 +97,30 @@ function evalInputs() {
 
 
 // delete button
-$(document).on('click', "#delete-button", function() {
+$(document).on('click', ".delete-button", function() {
   $(this).closest('.idea-card').remove();
 });
 
+$(document).on('mouseenter', '.delete-button', function() {
+  $(this).attr('src', 'icons/delete-hover.svg');
+});
 
+$(document).on('mouseleave', '.delete-button', function() {
+  $(this).attr('src', 'icons/delete.svg');
+});
 
-// $(document).on('click', "#upvote", function() {
-// $(this).find('.idea-quality').toggle
-function increaseSPG() {
-  var ideaQuality = $(this).closest('.idea-quality').text();
-  if ($(this).siblings('.idea-quality').text() === "Swill") {
-    $(this).siblings('.idea-quality').text('Plausible');
-  } else if ($(this).siblings('siblings').text('Plausible')) {
-    $(this).text('Genius');
-  }
-};
+$(document).on('mouseenter', '#upvote-button', function() {
+  $(this).attr('src', 'icons/upvote-hover.svg');
+});
 
+$(document).on('mouseleave', '#upvote-button', function() {
+  $(this).attr('src', 'icons/upvote.svg');
+});
 
+$(document).on('mouseenter', '#downvote-button', function() {
+  $(this).attr('src', 'icons/downvote-hover.svg');
+});
 
-
-// function upvoteDisplay() {
-//   $('.idea-quality').text();
-// });
-
-  // if swill then plausible
-  // if plausible then genius
-  // if genius button will be off
-  // jQuery .text similar to a .val()
-
-// buttons to toggle
-// $(document).on('click', "#upvote", function() {
-//   $(this).find('.idea-quality')
-
-
-//object to store user created info
-function FreshIdea(title, body) {
-  this.title = title;
-  this.body = body;
-  this.status = "Swill";
-  this.id = Date.now();
-}
+$(document).on('mouseleave', '#downvote-button', function() {
+  $(this).attr('src', 'icons/downvote.svg');
+});
