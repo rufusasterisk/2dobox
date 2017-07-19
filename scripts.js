@@ -5,7 +5,6 @@ $("#save-button").on('click', function(event) {
 
 $(".idea-stream").on('click', ".delete-button", function() {
   $(this).closest('.idea-card').remove();
-  console.log(this);
 });
 
 $('#upvote-button').on('click', increaseSPG);
@@ -17,16 +16,15 @@ function FreshIdea(title, body) {
   this.id = Date.now();
 }
 
-
+//functionality of increaseSPG is still not working properly
+//Upvote/Downvote buttons do not behave the way they should
 function increaseSPG() {
-
   var ideaQuality = $(this).closest('.idea-quality').text();
   if ($(this).siblings('.idea-quality').text() === "Swill") {
     $(this).siblings('.idea-quality').text('Plausible');
   } else if ($(this).siblings('siblings').text('Plausible')) {
     $(this).text('Genius');
   }
-  console.log("objects ID: ", object.id)
 };
 
 // writes text for new card
@@ -63,22 +61,13 @@ function prependCard(idea) {
       </div>
     </div>`
   );
-  console.log(this.status);
+};
 
-}
-
-//input reset draft
 function resetInputs() {
   $('#idea-title').val('');
   $('#idea-body').val('');
   $('#save-button')
 };
-
-// Creating cards as objects
-// JQuery date.now
-// When creating objects you can check the quality of the card
-
-// checks to make sure cards have text
 
 function evalInputs() {
   var ideaTitle = $("#idea-title").val();
@@ -93,10 +82,6 @@ function evalInputs() {
   }
 };
 
-//save button --> creates new card
-
-
-// delete button
 $(document).on('click', ".delete-button", function() {
   $(this).closest('.idea-card').remove();
 });

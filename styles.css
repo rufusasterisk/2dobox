@@ -1,18 +1,18 @@
 * {
-  margin: 0;
   box-sizing: border-box;
+  margin: 0;
 }
 
 body {
   font-family: "Open Sans";
+  height: 100vh;
   margin: 0;
   width: 100%;
-  height: 100vh;
 }
 
 .container {
-  max-width: 100%;
   margin: auto;
+  max-width: 100%;
 }
 
 .blue-box {
@@ -22,19 +22,16 @@ body {
 }
 
 .idea-log {
-  width: 50%;
   margin: auto;
+  width: 50%;
 }
 
 h1 {
   font-family: "Roboto Slab";
   font-size: 2.5em;
-  padding-top: 20px;
   margin-bottom: 20px;
+  padding-top: 20px;
   text-align: center;
-  font-size: 32px;
-  margin-bottom: 20px;
-  padding-top: 20px;
 }
 
 .idea-text {
@@ -46,19 +43,19 @@ h1 {
 }
 
 .user-inputs {
+  border: solid 2px #D1D3D4;
   font-size: 1.3em;
   height: 35px;
   margin-bottom: 20px;
   width: 100%;
-  border: solid 2px #D1D3D4;
 }
 
 ::-webkit-input-placeholder {
- font-family: "Open Sans";
- color: #D1D3D4;
- font-size: 16px;
- font-weight: bold;
- padding-left: 5px;
+  color: #D1D3D4;
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: bold;
+  padding-left: 5px;
 }
 
 .card-buttons {
@@ -71,12 +68,11 @@ h1 {
   padding-left: 10px;
 }
 
-
 #save-button {
   background-color: #00A79D;
-  font-size: 16px;
   border-style: none;
   color: #FFFFFF;
+  font-size: 16px;
 }
 
 #save-button:hover {
@@ -91,48 +87,35 @@ h1 {
   width: 100%;
 }
 
-/*.delete-button:hover {
-  display: none;
-}
-
-#upvote-button:hover {
-  display: none;
-}
-
-#downvote-button:hover {
-  display: none;
-}*/
-
 .white-box {
-  width: 100%;
   margin: 0;
+  width: 100%;
 }
 
 .idea-card {
+  border-bottom: 1px #D1D3D4;
   width: 100%;
-  /*height: 150px;*/
-  border-bottom: solid 1px #D1D3D4;
+}
+
+.card-title-flex,
+.card-quality-flex {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 10px 5px;
 }
 
 .card-title-flex {
-  align-items: center;
-  display: flex;
   justify-content: space-between;
-  flex-direction: row;
-  margin: 10px 5px;
 
 }
 
 .card-quality-flex {
-  display: flex;
   justify-content: flex-start;
-  align-items: center;
-  flex-direction: row;
-  margin: 10px 5px;
-
 }
 
-h2, h3 {
+h2,
+h3 {
   color: #6D6E71;
 }
 
