@@ -8,17 +8,32 @@ $(".idea-stream").on('click', ".delete-button", function() {
   console.log(this);
 });
 
+$('#upvote-button').on('click', increaseSPG);
+
+
+
+
+
 // writes text for new card
 function addCard() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
   var newIdea = new FreshIdea(ideaTitle, ideaBody);
-  // FreshIdea(ideaTitle, ideaBody);
-    console.log(newIdea);
   prependCard(newIdea);
-  // delete button
-
+  console.log("addCard1: ", newIdea);
+  sendIdeaToStorage(newIdea);
+  console.log("addCard2: ", newIdea);
 };
+
+function sendIdeaToStorage(object) {
+  var uniqueIdeaId = object.id
+  localStorage.setItem(uniqueIdeaId, JSON.stringify(object));
+  console.log("send to storage: ", object)
+}
+
+function getIdeaFromStorage(object) {
+
+}
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
@@ -31,10 +46,11 @@ function prependCard(idea) {
       <div class="card-quality-flex">
         <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
-        <h3>quality: <span class="idea-quality">${this.status}</span></h3>
+        <span class="idea-quality">quality: ${this.status}</span>
       </div>
     </div>`
   );
+  console.log(this.status);
 
 }
 
@@ -75,17 +91,16 @@ $(document).on('click', "#delete-button", function() {
 
 
 // $(document).on('click', "#upvote", function() {
-//   $(this).find('.idea-quality').toggle
+// $(this).find('.idea-quality').toggle
 function increaseSPG() {
-  var ideaQuality = $('.idea-quality').text();
-  if ($('.idea-quality').text('Swill')) {
-    $('.idea-quality').text('Plausible');
-  } else if ($('.idea-quality').text('Plausible')) {
-    $('.idea-quality').text('Genius');
+  var ideaQuality = $(this).closest('.idea-quality').text();
+  if ($(this).siblings('.idea-quality').text() === "Swill") {
+    $(this).siblings('.idea-quality').text('Plausible');
+  } else if ($(this).siblings('siblings').text('Plausible')) {
+    $(this).text('Genius');
   }
 };
 
-$('#upvote-button').on('click', increaseSPG);
 
 
 
