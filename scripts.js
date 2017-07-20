@@ -1,3 +1,5 @@
+var ideaArray = [];
+
 $("#save-button").on('click', function(event) {
   event.preventDefault();
   evalInputs();
@@ -9,24 +11,33 @@ $(".idea-stream").on('click', ".delete-button", function() {
 
 $('.idea-stream').on('click', $('#upvote-button'), increaseSPG);
 
-function FreshIdea(title, body) {
+function FreshIdea(title, body, status) {
   this.title = title;
   this.body = body;
-  this.status = "Swill";
+  this.status = status || "Swill";
   this.id = Date.now();
 }
 
 //functionality of increaseSPG is still not working properly
 //Upvote/Downvote buttons do not behave the way they should
 function increaseSPG() {
-  console.log("id: ", $(this.id));
+  // grab a generated card that corresponds to the button the user is clicking
+  var uniqueCard = $(this).children('.idea-card').children('id');
+  console.log("idea-card: ", uniqueCard);
+  console.log("this: ", $(this));
+  // get id of generated card
+  console.log("id: ", $(uniqueCard.id));
+  // change the text of just that cards button states
   var ideaQuality = $(this).closest('.idea-quality').text();
-  console.log("ideaQuality: ", $(this.closest.id));
-  if ($(this).siblings('.idea-quality').text() === "Swill") {
-    $(this).siblings('.idea-quality').text('Plausible');
-  } else if ($(this).siblings('siblings').text('Plausible')) {
-    $(this).text('Genius');
-  }
+
+
+
+  // console.log("ideaQuality: ", $(this.closest.id));
+  // if ($(this).siblings('.idea-quality').text() === "Swill") {
+  //   $(this).siblings('.idea-quality').text('Plausible');
+  // } else if ($(this).siblings('siblings').text('Plausible')) {
+  //   $(this).text('Genius');
+  // }
 
 
 };
@@ -35,20 +46,49 @@ function increaseSPG() {
 function addCard() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
-  var newIdea = new FreshIdea(ideaTitle, ideaBody);
+  var ideaStatus = "Swill"
+  var newIdea = new FreshIdea(ideaTitle, ideaBody, ideaStatus);
   prependCard(newIdea);
-  sendIdeaToStorage(newIdea);
+  ideaArray.push(newIdea);
+  sendIdeaToStorage();
 };
 
-function sendIdeaToStorage(object) {
-  var uniqueIdeaId = object.id;
-  localStorage.setItem(uniqueIdeaId, JSON.stringify(object));
+function sendIdeaToStorage() {
+  localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 }
 
-function getIdeaFromStorage(object) {
-  var uniqueIdeaId = object.id;
-  localStorage.getItem(uniqueIdeaId, JSON.parse(object));
+function getIdeaFromStorage() {
+  if (localStorage.getItem('ideaArray')) {
+    var storedCards = JSON.parse(localStorage.getItem("ideaArray"));
+    storedCards.forEach(function(element) {
+      prependCard(element);
+    });
+  } else {
+    alert('You do not have any of your shit in here');
+  }
 }
+
+// ideaArray.forEach(function(element) {
+//
+// })
+//
+// var rebuildCard = ideaArray.forEach(function(element) {
+//   rebuildCard(element.title, element.body, element.status, element.id)
+// });
+// var cardFromStorage = rebuildCard(title, body, status, id);
+// // rebuildCard(storedCards);
+// // function to rebuild the card after pulling it from array
+// // unsure about syntax and where exatly to call this
+// function RebuildCard(title, body, status, id) {
+//   this.title = title;
+//   this.body = body;
+//   this.status = status;
+//   this.id = id;
+// }
+
+$(document).ready(function() {
+  getIdeaFromStorage();
+});
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
