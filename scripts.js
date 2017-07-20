@@ -100,8 +100,6 @@ function getIdeaFromStorage() {
   }
 }
 
-
-
 function prependCard(idea) {
   $('.idea-stream').prepend(
     `<div class="idea-card" id="${idea.id}">
