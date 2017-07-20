@@ -51,7 +51,9 @@ $(document).on('mouseleave', '#downvote-button', function() {
 
 $(".idea-stream").on('click', "#upvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
+  console.log(checkQualityStatus);
   if (checkQualityStatus === 'swill') {
+    console.log("it's swill");
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
   } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
   }
@@ -60,6 +62,7 @@ $(".idea-stream").on('click', "#upvote-button", function() {
 $(".idea-stream").on('click', "#downvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'genius') {
+    console.log("it's genius");
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
   } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
   }
@@ -73,7 +76,10 @@ function FreshIdea(title, body, status) {
 }
 
 function addCard() {
-  var newIdea = new FreshIdea($("#idea-title").val(), $("#idea-body").val(), "swill");
+  var ideaTitle = $("#idea-title").val();
+  var ideaBody = $("#idea-body").val();
+  var ideaStatus = "swill"
+  var newIdea = new FreshIdea(ideaTitle, ideaBody, ideaStatus);
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
@@ -93,6 +99,8 @@ function getIdeaFromStorage() {
     alert('You do not have any of your shit in here');
   }
 }
+
+
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
