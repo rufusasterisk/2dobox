@@ -2,11 +2,10 @@ var ideaArray = [];
 
 $(document).ready(function() {
   getIdeaFromStorage();
-  $("#save-button").attr("disabled", "disabled");
 });
 
-$("#idea-body, idea-title").keyup(function() {
-  if (($("#idea-title").val() !== "") && ($("#idea-body").val() !== "")) {
+$("#idea-body, #idea-title").keyup(function() {
+  if (($("#idea-title").val() !== "") || ($("#idea-body").val() !== "")) {
     $("#save-button").removeAttr("disabled");
   }
 });
@@ -100,16 +99,44 @@ function getIdeaFromStorage() {
   }
 }
 
+$('.idea-stream').on('keyup', 'h2', function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    this.blur();
+  }
+  var id = $(this).closest('.idea-card')[0].id;
+  var title = $(this).text();
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      card.title = title;
+    }
+  });
+  sendIdeaToStorage();
+});
 
+$('.idea-stream').on('keyup', 'p', function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    this.blur();
+  }
+  var id = $(this).closest('.idea-card')[0].id;
+  var body = $(this).text();
+  ideaArray.forEach(function(card) {
+    if (card.id == id) {
+      card.body = body;
+    }
+  });
+  sendIdeaToStorage();
+});
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
     `<div class="idea-card" id="${idea.id}">
       <div class="card-title-flex">
-        <h2>${idea.title}</h2>
+        <h2 contenteditable=true>${idea.title}</h2>
         <img src="icons/delete.svg" class="card-buttons delete-button" />
       </div>
-      <p>${idea.body}</p>
+      <p contenteditable=true>${idea.body}</p>
       <div class="card-quality-flex quality-spacing">
         <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
