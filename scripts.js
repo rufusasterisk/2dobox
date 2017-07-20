@@ -43,33 +43,29 @@ $(document).on('mouseleave', '#downvote-button', function() {
 
 $(".idea-stream").on('click', "#upvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
-  console.log(checkQualityStatus);
-  if (checkQualityStatus === 'Swill') {
-    console.log("it's swill");
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('Plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('Genius');
+  if (checkQualityStatus === 'swill') {
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
+  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
   }
 });
 
 $(".idea-stream").on('click', "#downvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
-  console.log(checkQualityStatus);
-  if (checkQualityStatus === 'Genius') {
-    console.log("it's genius");
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('Plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('Swill');
+  if (checkQualityStatus === 'genius') {
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
+  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
   }
 });
 
 function FreshIdea(title, body, status) {
   this.title = title;
   this.body = body;
-  this.status = "Swill";
+  this.status = "swill";
   this.id = Date.now();
 };
 
 function addCard() {
-  var newIdea = new FreshIdea($("#idea-title").val(), $("#idea-body").val(), "Swill");
+  var newIdea = new FreshIdea($("#idea-title").val(), $("#idea-body").val(), "swill");
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
