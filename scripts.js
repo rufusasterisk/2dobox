@@ -2,11 +2,19 @@ var ideaArray = [];
 
 $(document).ready(function() {
   getIdeaFromStorage();
+  $("#save-button").attr("disabled", "disabled");
+});
+
+$("#idea-body, idea-title").keyup(function() {
+  if (($("#idea-title").val() !== "") && ($("#idea-body").val() !== "")) {
+    $("#save-button").removeAttr("disabled");
+  } 
 });
 
 $("#save-button").on('click', function(event) {
   event.preventDefault();
   evalInputs();
+  $("#save-button").attr("disabled", "disabled");
 });
 
 $(".idea-stream").on('click', ".delete-button", function() {
@@ -62,7 +70,7 @@ function FreshIdea(title, body, status) {
   this.body = body;
   this.status = "swill";
   this.id = Date.now();
-};
+}
 
 function addCard() {
   var newIdea = new FreshIdea($("#idea-title").val(), $("#idea-body").val(), "swill");
@@ -73,7 +81,7 @@ function addCard() {
 
 function sendIdeaToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
-};
+}
 
 function getIdeaFromStorage() {
   if (localStorage.getItem('ideaArray')) {
@@ -84,17 +92,17 @@ function getIdeaFromStorage() {
   } else {
     alert('You do not have any of your shit in here');
   }
-};
+}
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
     `<div class="idea-card" id="${idea.id}">
       <div class="card-title-flex">
-        <h2 contenteditable=true>${idea.title}</h2>
+        <h2>${idea.title}</h2>
         <img src="icons/delete.svg" class="card-buttons delete-button" />
       </div>
-      <p contenteditable=true>${idea.body}</p>
-      <div class="card-quality-flex">
+      <p>${idea.body}</p>
+      <div class="card-quality-flex quality-spacing">
         <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
         <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
@@ -106,7 +114,6 @@ function prependCard(idea) {
 function resetInputs() {
   $('#idea-title').val('');
   $('#idea-body').val('');
-  $('#save-button')
 };
 
 function evalInputs() {
