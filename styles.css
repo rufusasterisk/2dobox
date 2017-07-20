@@ -58,16 +58,8 @@ h1 {
   font-weight: bold;
 }
 
-#idea-title:focus {
-  outline: none;
-}
-
 #idea-body {
   margin-bottom:
-}
-
-#idea-body:focus {
-  outline: none;
 }
 
 ::-webkit-input-placeholder {
@@ -114,16 +106,15 @@ form {
   background-color: #D1D3D4;
 }
 
-#save-button:focus {
+#idea-title,
+#idea-body,
+#save-button,
+#search-bar:focus {
   outline: none;
 }
 
 #search-bar {
   margin: 25px 0;
-}
-
-#search-bar:focus {
-  outline: none;
 }
 
 .white-box {
