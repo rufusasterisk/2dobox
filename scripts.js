@@ -73,10 +73,7 @@ function FreshIdea(title, body, status) {
 }
 
 function addCard() {
-  var ideaTitle = $("#idea-title").val();
-  var ideaBody = $("#idea-body").val();
-  var ideaStatus = "swill"
-  var newIdea = new FreshIdea(ideaTitle, ideaBody, ideaStatus);
+  var newIdea = new FreshIdea($("#idea-title").val(), $("#idea-body").val(), "swill");
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
@@ -96,8 +93,6 @@ function getIdeaFromStorage() {
     alert('You do not have any of your shit in here');
   }
 }
-
-
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
