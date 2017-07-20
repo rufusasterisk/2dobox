@@ -17,7 +17,7 @@ body {
 
 .blue-box {
   background-color: #E5F3F2;
-  height: 280px;
+  height: 255px;
   width: 100%;
 }
 
@@ -44,18 +44,33 @@ h1 {
 
 .user-inputs {
   border: solid 2px #D1D3D4;
-  font-size: 1.3em;
   height: 35px;
-  margin-bottom: 20px;
+  padding: 2px 0 2px 5px;
+  margin-bottom: 15px;
   width: 100%;
+  color: #6D6E71;
+  font-family: "Open Sans";
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#idea-title:focus {
+  outline: none;
+}
+
+#idea-body {
+  margin-bottom:
+}
+
+#idea-body:focus {
+  outline: none;
 }
 
 ::-webkit-input-placeholder {
   color: #D1D3D4;
   font-family: "Open Sans";
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  padding-left: 5px;
 }
 
 .card-buttons {
@@ -63,9 +78,8 @@ h1 {
   width: 20px;
 }
 
-#idea-title,
-#idea-body {
-  padding-left: 10px;
+form {
+  height: 75px;
 }
 
 #save-button {
@@ -73,18 +87,28 @@ h1 {
   border-style: none;
   color: #FFFFFF;
   font-size: 16px;
+  margin-bottom: 5px;
 }
 
 #save-button:hover {
   background-color: #045E55;
 }
 
+#save-button:disabled {
+  background-color: #D1D3D4;
+}
+
+#save-button:focus {
+  outline: none;
+}
+
 #search-bar {
-  font-size: 1.3em;
-  height: 35px;
-  margin-bottom: 20px;
-  padding-left: 10px;
-  width: 100%;
+  margin: 25px 0;
+
+}
+
+#search-bar:focus {
+  outline: none;
 }
 
 .white-box {
@@ -93,7 +117,7 @@ h1 {
 }
 
 .idea-card {
-  border-bottom: 1px #D1D3D4;
+  border-bottom: solid 1px #D1D3D4;
   width: 100%;
 }
 
@@ -102,11 +126,12 @@ h1 {
   align-items: center;
   display: flex;
   flex-direction: row;
-  margin: 10px 5px;
+  margin: 10px 0;
 }
 
 .card-title-flex {
   justify-content: space-between;
+  margin-top: 18px;
 
 }
 
@@ -114,16 +139,31 @@ h1 {
   justify-content: flex-start;
 }
 
+.quality-spacing {
+  margin: 20px 0;
+}
+
 h2,
 h3 {
   color: #6D6E71;
+  font-family: "Roboto Slab";
 }
 
 h2 {
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+h3 {
+  margin-left: 5px;
 }
 
 p {
   color: #939598;
-  margin-left: 5px;
+  margin-left: : 5px;
+}
+
+#upvote-button,
+#downvote-button {
+  margin-right: 15px;
 }

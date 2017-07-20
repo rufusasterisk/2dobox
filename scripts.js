@@ -2,11 +2,19 @@ var ideaArray = [];
 
 $(document).ready(function() {
   getIdeaFromStorage();
+  $("#save-button").attr("disabled", "disabled");
+});
+
+$("#idea-body, idea-title").keyup(function() {
+  if (($("#idea-title").val() !== "") && ($("#idea-body").val() !== "")) {
+    $("#save-button").removeAttr("disabled");
+  } 
 });
 
 $("#save-button").on('click', function(event) {
   event.preventDefault();
   evalInputs();
+  $("#save-button").attr("disabled", "disabled");
 });
 
 $(".idea-stream").on('click', ".delete-button", function() {
@@ -44,32 +52,35 @@ $(document).on('mouseleave', '#downvote-button', function() {
 $(".idea-stream").on('click', "#upvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   console.log(checkQualityStatus);
-  if (checkQualityStatus === 'Swill') {
+  if (checkQualityStatus === 'swill') {
     console.log("it's swill");
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('Plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('Genius');
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
+  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
   }
 });
 
 $(".idea-stream").on('click', "#downvote-button", function() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   console.log(checkQualityStatus);
-  if (checkQualityStatus === 'Genius') {
+  if (checkQualityStatus === 'genius') {
     console.log("it's genius");
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('Plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('Swill');
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
+  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
   }
 });
 
 function FreshIdea(title, body, status) {
   this.title = title;
   this.body = body;
-  this.status = "Swill";
+  this.status = "swill";
   this.id = Date.now();
-};
+}
 
 function addCard() {
-  var newIdea = new FreshIdea($("#idea-title").val(), $("#idea-body").val(), "Swill");
+  var ideaTitle = $("#idea-title").val();
+  var ideaBody = $("#idea-body").val();
+  var ideaStatus = "swill"
+  var newIdea = new FreshIdea(ideaTitle, ideaBody, ideaStatus);
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
@@ -77,7 +88,7 @@ function addCard() {
 
 function sendIdeaToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
-};
+}
 
 function getIdeaFromStorage() {
   if (localStorage.getItem('ideaArray')) {
@@ -88,17 +99,19 @@ function getIdeaFromStorage() {
   } else {
     alert('You do not have any of your shit in here');
   }
-};
+}
+
+
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
     `<div class="idea-card" id="${idea.id}">
       <div class="card-title-flex">
-        <h2 contenteditable=true>${idea.title}</h2>
+        <h2>${idea.title}</h2>
         <img src="icons/delete.svg" class="card-buttons delete-button" />
       </div>
-      <p contenteditable=true>${idea.body}</p>
-      <div class="card-quality-flex">
+      <p>${idea.body}</p>
+      <div class="card-quality-flex quality-spacing">
         <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
         <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
@@ -110,7 +123,6 @@ function prependCard(idea) {
 function resetInputs() {
   $('#idea-title').val('');
   $('#idea-body').val('');
-  $('#save-button')
 };
 
 function evalInputs() {
