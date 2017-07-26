@@ -37,7 +37,15 @@ function saveEnableTest() {
 }
 
 function removeCard() {
+  var cardID = $(this).closest('.idea-card').attr('id');
   $(this).closest('.idea-card').remove();
+  var ideaArray = getArrayFromStorage();
+  ideaArray.forEach(function(card, index) {
+    if (card.id == cardID) {
+      ideaArray.splice(index, 1);
+    }
+  });
+  sendIdeaToStorage(ideaArray);
 }
 
 function upvoteClick() {
