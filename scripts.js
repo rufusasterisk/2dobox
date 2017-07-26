@@ -50,30 +50,22 @@ function removeCard() {
   sendIdeaToStorage(ideaArray);
 }
 
-function upvoteClick() {
-  var cardID = $(this).closest('.idea-card').attr('id');
-  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
-  if (checkQualityStatus === 'swill') {
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-    updateCardQuality(cardID, 'plausible');
+function upvoteClick(){
+  var cardID = $(this).closest('.idea-card').attr('id')
+  var currentPriority = parseInt($(this).closest('.idea-card').data('priority'));
+  if (currentPriority < 4){
+    currentPriority ++;
   }
-  else {
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
-    updateCardQuality(cardID, 'genius');
-  }
+  updateCardQuality(cardID, currentPriority);
 }
 
-function downvoteClick() {
-  var cardID = $(this).closest('.idea-card').attr('id');
-  var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
-  if (checkQualityStatus === 'genius') {
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-    updateCardQuality(cardID, 'plausible');
+function downvoteClick(){
+  var cardID = $(this).closest('.idea-card').attr('id')
+  var currentPriority = parseInt($(this).closest('.idea-card').data('priority'));
+  if (currentPriority > 0){
+    currentPriority --;
   }
-  else {
-    $(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
-    updateCardQuality(cardID, 'swill');
-  }
+  updateCardQuality(cardID, currentPriority);
 }
 
 function searchStorageArray(){
@@ -97,9 +89,7 @@ function textChanged(event) {
 }
 
 function completeClick(){
-  console.log("completeClick");
   var cardID = $(this).closest('.idea-card').attr('id');
-  $(this).closest('.idea-card').toggleClass('completed');
   var ideaArray = getArrayFromStorage();
   ideaArray.forEach(function(card){
     if (card.id == cardID){
@@ -107,11 +97,10 @@ function completeClick(){
     }
   });
   sendIdeaToStorage(ideaArray);
+  displayIdeaArray(getArrayFromStorage());
 }
 
 //internal functions
-
-
 function updateCardQuality(cardID, newQuality){
   var ideaArray = getArrayFromStorage();
   ideaArray.forEach(function(card) {
@@ -120,16 +109,17 @@ function updateCardQuality(cardID, newQuality){
     }
   });
   sendIdeaToStorage(ideaArray);
+  displayIdeaArray(getArrayFromStorage());
 }
 
 function addCard() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
   var newIdea = new FreshIdea(ideaTitle, ideaBody);
-  prependCard(newIdea);
   ideaArray = getArrayFromStorage();
   ideaArray.push(newIdea);
   sendIdeaToStorage(ideaArray);
+  displayIdeaArray(getArrayFromStorage());
 }
 
 function resetInputs() {
@@ -148,7 +138,7 @@ function getArrayFromStorage(){
 function FreshIdea(title, body) {
   this.title = title;
   this.body = body;
-  this.status = "swill";
+  this.status = 2;
   this.id = Date.now();
   this.complete = false;
 }
@@ -160,8 +150,17 @@ function sendIdeaToStorage(ideaArray) {
 function displayIdeaArray(ideaArray) {
   $('.idea-stream').empty();
   ideaArray.forEach(function(element) {
-    prependCard(element);
+    parseData(element);
   });
+}
+
+function parseData(card){
+  var priorityText = translateCardPriority(card.status);
+  var classList = "idea-card";
+  if (card.complete){
+    classList = "idea-card completed"
+  }
+  prependCard(card, priorityText, classList);
 }
 
 function updateCardText(id, title, body) {
@@ -175,13 +174,14 @@ function updateCardText(id, title, body) {
   sendIdeaToStorage(ideaArray);
 };
 
-function prependCard(idea) {
-  var classList = "idea-card";
-  if (idea.complete){
-    classList = classList + " completed"
-  }
+function translateCardPriority(number){
+  var priorityList = ['None', 'Low', 'Normal', 'High', 'Critical'];
+  return priorityList[number];
+}
+
+function prependCard(idea, priorityText, classList) {
   $('.idea-stream').prepend(
-    `<div class="${classList}" id="${idea.id}">
+    `<div class="${classList}" data-priority="${idea.status}"" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
         <img src="icons/delete.svg" class="card-buttons delete-button" />
@@ -190,7 +190,7 @@ function prependCard(idea) {
       <div class="card-quality-flex quality-spacing">
         <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
-        <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
+        <h3>quality: <span class="idea-quality">${priorityText}</span></h3>
       </div>
       <button class="complete-btn" type="button" name="button">Task Complete</button>
     </div>`
