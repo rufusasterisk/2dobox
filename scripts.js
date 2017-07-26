@@ -6,7 +6,6 @@ $(document).ready(function() {
 });
 
 //Listeners
-
 $(document).on('mouseenter', '.delete-button', deleteHover);
 $(document).on('mouseleave', '.delete-button', deleteUnhover);
 $(document).on('mouseenter', '#upvote-button', upvoteHover);
@@ -22,24 +21,24 @@ $(".idea-stream").on('click', "#downvote-button", downvoteClick);
 $('.idea-stream').on('keyup', 'h2, p', textChanged);
 
 function saveEnableTest() {
-  if (($("#idea-title").val() !== "") || ($("#idea-body").val() !== "")) {
+  if ($("#idea-title").val() !== "" && $("#idea-body").val() !== "") {
     $("#save-button").removeAttr("disabled");
+  }
+  else {
+    $("#save-button").attr("disabled", "disabled");
   }
 }
 
 function saveClick(event) {
   event.preventDefault();
-  evalInputs();
-  $("#save-button").attr("disabled", "disabled");
+  addCard();
+  resetInputs();
+  saveEnableTest();
 }
 
 function removeCard() {
   $(this).closest('.idea-card').remove();
 }
-
-// $(document).on('click', ".delete-button", function() {
-//   $(this).closest('.idea-card').remove();
-// });
 
 function upvoteClick() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
@@ -61,7 +60,7 @@ function downvoteClick() {
   }
 }
 
-function FreshIdea(title, body, status) {
+function FreshIdea(title, body) {
   this.title = title;
   this.body = body;
   this.status = "swill";
@@ -71,8 +70,7 @@ function FreshIdea(title, body, status) {
 function addCard() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
-  var ideaStatus = "swill"
-  var newIdea = new FreshIdea(ideaTitle, ideaBody, ideaStatus);
+  var newIdea = new FreshIdea(ideaTitle, ideaBody);
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
@@ -88,11 +86,8 @@ function getIdeaFromStorage() {
     ideaArray.forEach(function(element) {
       prependCard(element);
     });
-  // } else {
-  //   alert('You do not have any of your shit in here');
   }
 }
-
 
 function textChanged(event) {
   if (event.keyCode === 13) {
@@ -115,21 +110,6 @@ function updateCardText(id, title, body) {
   sendIdeaToStorage();
 };
 
-// $('.idea-stream').on('keyup', 'p', function(event) {
-//   if (event.keyCode === 13) {
-//     event.preventDefault();
-//     this.blur();
-//   }
-//   var id = $(this).closest('.idea-card')[0].id;
-//   var body = $(this).text();
-//   ideaArray.forEach(function(card) {
-//     if (card.id == id) {
-//       card.body = body;
-//     }
-//   });
-//   sendIdeaToStorage();
-// });
-
 function prependCard(idea) {
   $('.idea-stream').prepend(
     `<div class="idea-card" id="${idea.id}">
@@ -150,21 +130,6 @@ function prependCard(idea) {
 function resetInputs() {
   $('#idea-title').val('');
   $('#idea-body').val('');
-}
-
-function evalInputs() {
-  var ideaTitle = $("#idea-title").val();
-  var ideaBody = $("#idea-body").val();
-  if (!ideaTitle) {
-    return alert("Please enter a title.");
-  }
-  else if (!ideaBody) {
-    return alert ("Please enter something in the body.");
-  }
-  else {
-    addCard();
-    resetInputs();
-  }
 }
 
 //hover functions
