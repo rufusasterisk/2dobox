@@ -1,5 +1,5 @@
 //on page load
-displayIdeasFromStorage();
+displayIdeaArray(getArrayFromStorage());
 
 //Listeners
 
@@ -130,8 +130,8 @@ function sendIdeaToStorage(ideaArray) {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 }
 
-function displayIdeasFromStorage() {
-  var ideaArray = getArrayFromStorage();
+function displayIdeaArray(ideaArray) {
+  $('.idea-stream').empty();
   ideaArray.forEach(function(element) {
     prependCard(element);
   });
