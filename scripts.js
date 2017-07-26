@@ -1,9 +1,9 @@
 //on page load
-var ideaArray = [];
-
-$(document).ready(function() {
-  getIdeaFromStorage();
-});
+displayIdeasFromStorage();
+// var ideaArray = [];
+// $(document).ready(function() {
+//   displayIdeasFromStorage();
+// });
 
 //Listeners
 $(document).on('mouseenter', '.delete-button', deleteHover);
@@ -40,6 +40,14 @@ function removeCard() {
   $(this).closest('.idea-card').remove();
 }
 
+function getArrayFromStorage(){
+  var ideaArray = JSON.parse(localStorage.getItem("ideaArray"));
+  if (ideaArray == null) {
+    ideaArray = [];
+  }
+  return ideaArray;
+}
+
 function upvoteClick() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'swill') {
@@ -72,21 +80,20 @@ function addCard() {
   var ideaBody = $("#idea-body").val();
   var newIdea = new FreshIdea(ideaTitle, ideaBody);
   prependCard(newIdea);
+  ideaArray = getArrayFromStorage();
   ideaArray.push(newIdea);
-  sendIdeaToStorage();
+  sendIdeaToStorage(ideaArray);
 }
 
-function sendIdeaToStorage() {
+function sendIdeaToStorage(ideaArray) {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 }
 
-function getIdeaFromStorage() {
-  if (localStorage.getItem('ideaArray')) {
-    ideaArray = JSON.parse(localStorage.getItem("ideaArray"));
-    ideaArray.forEach(function(element) {
-      prependCard(element);
-    });
-  }
+function displayIdeasFromStorage() {
+  var ideaArray = getArrayFromStorage();
+  ideaArray.forEach(function(element) {
+    prependCard(element);
+  });
 }
 
 function textChanged(event) {
@@ -101,13 +108,14 @@ function textChanged(event) {
 }
 
 function updateCardText(id, title, body) {
+  var ideaArray = getArrayFromStorage();
   ideaArray.forEach(function(card) {
     if (card.id == id) {
       card.title = title;
       card.body = body;
     }
   });
-  sendIdeaToStorage();
+  sendIdeaToStorage(ideaArray);
 };
 
 function prependCard(idea) {
