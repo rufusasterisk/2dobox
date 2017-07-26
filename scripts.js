@@ -14,9 +14,12 @@ $(document).on('mouseleave', '#upvote-button', upvoteUnhover);
 $(document).on('mouseenter', '#downvote-button', downvoteHover);
 $(document).on('mouseleave', '#downvote-button', downvoteUnhover);
 
-$(".idea-stream").on('click', ".delete-button", removeCard);
 $("#save-button").on('click', saveClick);
 $("#idea-body, #idea-title").keyup(saveEnableTest);
+$(".idea-stream").on('click', ".delete-button", removeCard);
+$(".idea-stream").on('click', "#upvote-button", upvoteClick);
+$(".idea-stream").on('click', "#downvote-button", downvoteClick);
+$('.idea-stream').on('keyup', 'h2, p', textChanged);
 
 function saveEnableTest() {
   if (($("#idea-title").val() !== "") || ($("#idea-body").val() !== "")) {
@@ -38,21 +41,25 @@ function removeCard() {
 //   $(this).closest('.idea-card').remove();
 // });
 
-$(".idea-stream").on('click', "#upvote-button", function() {
+function upvoteClick() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'swill') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
   }
-});
+  else {
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
+  }
+}
 
-$(".idea-stream").on('click', "#downvote-button", function() {
+function downvoteClick() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'genius') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
   }
-});
+  else {
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
+  }
+}
 
 function FreshIdea(title, body, status) {
   this.title = title;
@@ -69,7 +76,7 @@ function addCard() {
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
-};
+}
 
 function sendIdeaToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
@@ -81,40 +88,47 @@ function getIdeaFromStorage() {
     ideaArray.forEach(function(element) {
       prependCard(element);
     });
-  } else {
-    alert('You do not have any of your shit in here');
+  // } else {
+  //   alert('You do not have any of your shit in here');
   }
 }
 
-$('.idea-stream').on('keyup', 'h2', function(event) {
+
+function textChanged(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     this.blur();
   }
   var id = $(this).closest('.idea-card')[0].id;
-  var title = $(this).text();
+  var title = $(this).closest('.idea-card').find('h2').text();
+  var body = $(this).closest('.idea-card').find('p').text();
+  updateCardText(id, title, body);
+}
+
+function updateCardText(id, title, body) {
   ideaArray.forEach(function(card) {
     if (card.id == id) {
       card.title = title;
-    }
-  });
-  sendIdeaToStorage();
-});
-
-$('.idea-stream').on('keyup', 'p', function(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    this.blur();
-  }
-  var id = $(this).closest('.idea-card')[0].id;
-  var body = $(this).text();
-  ideaArray.forEach(function(card) {
-    if (card.id == id) {
       card.body = body;
     }
   });
   sendIdeaToStorage();
-});
+};
+
+// $('.idea-stream').on('keyup', 'p', function(event) {
+//   if (event.keyCode === 13) {
+//     event.preventDefault();
+//     this.blur();
+//   }
+//   var id = $(this).closest('.idea-card')[0].id;
+//   var body = $(this).text();
+//   ideaArray.forEach(function(card) {
+//     if (card.id == id) {
+//       card.body = body;
+//     }
+//   });
+//   sendIdeaToStorage();
+// });
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
@@ -143,9 +157,11 @@ function evalInputs() {
   var ideaBody = $("#idea-body").val();
   if (!ideaTitle) {
     return alert("Please enter a title.");
-  } else if (!ideaBody) {
+  }
+  else if (!ideaBody) {
     return alert ("Please enter something in the body.");
-  } else {
+  }
+  else {
     addCard();
     resetInputs();
   }
