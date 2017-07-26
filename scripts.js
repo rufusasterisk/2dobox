@@ -1,68 +1,65 @@
+//on page load
 var ideaArray = [];
 
 $(document).ready(function() {
   getIdeaFromStorage();
 });
 
-$("#idea-body, #idea-title").keyup(function() {
+//Listeners
+
+$(document).on('mouseenter', '.delete-button', deleteHover);
+$(document).on('mouseleave', '.delete-button', deleteUnhover);
+$(document).on('mouseenter', '#upvote-button', upvoteHover);
+$(document).on('mouseleave', '#upvote-button', upvoteUnhover);
+$(document).on('mouseenter', '#downvote-button', downvoteHover);
+$(document).on('mouseleave', '#downvote-button', downvoteUnhover);
+
+$("#save-button").on('click', saveClick);
+$("#idea-body, #idea-title").keyup(saveEnableTest);
+$(".idea-stream").on('click', ".delete-button", removeCard);
+$(".idea-stream").on('click', "#upvote-button", upvoteClick);
+$(".idea-stream").on('click', "#downvote-button", downvoteClick);
+$('.idea-stream').on('keyup', 'h2, p', textChanged);
+
+function saveEnableTest() {
   if (($("#idea-title").val() !== "") || ($("#idea-body").val() !== "")) {
     $("#save-button").removeAttr("disabled");
   }
-});
+}
 
-$("#save-button").on('click', function(event) {
+function saveClick(event) {
   event.preventDefault();
   evalInputs();
   $("#save-button").attr("disabled", "disabled");
-});
+}
 
-$(".idea-stream").on('click', ".delete-button", function() {
+function removeCard() {
   $(this).closest('.idea-card').remove();
-});
+}
 
-$(document).on('click', ".delete-button", function() {
-  $(this).closest('.idea-card').remove();
-});
+// $(document).on('click', ".delete-button", function() {
+//   $(this).closest('.idea-card').remove();
+// });
 
-$(document).on('mouseenter', '.delete-button', function() {
-  $(this).attr('src', 'icons/delete-hover.svg');
-});
-
-$(document).on('mouseleave', '.delete-button', function() {
-  $(this).attr('src', 'icons/delete.svg');
-});
-
-$(document).on('mouseenter', '#upvote-button', function() {
-  $(this).attr('src', 'icons/upvote-hover.svg');
-});
-
-$(document).on('mouseleave', '#upvote-button', function() {
-  $(this).attr('src', 'icons/upvote.svg');
-});
-
-$(document).on('mouseenter', '#downvote-button', function() {
-  $(this).attr('src', 'icons/downvote-hover.svg');
-});
-
-$(document).on('mouseleave', '#downvote-button', function() {
-  $(this).attr('src', 'icons/downvote.svg');
-});
-
-$(".idea-stream").on('click', "#upvote-button", function() {
+function upvoteClick() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'swill') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
   }
-});
+  else {
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
+  }
+}
 
-$(".idea-stream").on('click', "#downvote-button", function() {
+function downvoteClick() {
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'genius') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
-  } else {$(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
   }
-});
+  else {
+    $(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
+  }
+}
 
 function FreshIdea(title, body, status) {
   this.title = title;
@@ -79,7 +76,7 @@ function addCard() {
   prependCard(newIdea);
   ideaArray.push(newIdea);
   sendIdeaToStorage();
-};
+}
 
 function sendIdeaToStorage() {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
@@ -91,40 +88,47 @@ function getIdeaFromStorage() {
     ideaArray.forEach(function(element) {
       prependCard(element);
     });
-  } else {
-    alert('You do not have any of your shit in here');
+  // } else {
+  //   alert('You do not have any of your shit in here');
   }
 }
 
-$('.idea-stream').on('keyup', 'h2', function(event) {
+
+function textChanged(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     this.blur();
   }
   var id = $(this).closest('.idea-card')[0].id;
-  var title = $(this).text();
+  var title = $(this).closest('.idea-card').find('h2').text();
+  var body = $(this).closest('.idea-card').find('p').text();
+  updateCardText(id, title, body);
+}
+
+function updateCardText(id, title, body) {
   ideaArray.forEach(function(card) {
     if (card.id == id) {
       card.title = title;
-    }
-  });
-  sendIdeaToStorage();
-});
-
-$('.idea-stream').on('keyup', 'p', function(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    this.blur();
-  }
-  var id = $(this).closest('.idea-card')[0].id;
-  var body = $(this).text();
-  ideaArray.forEach(function(card) {
-    if (card.id == id) {
       card.body = body;
     }
   });
   sendIdeaToStorage();
-});
+};
+
+// $('.idea-stream').on('keyup', 'p', function(event) {
+//   if (event.keyCode === 13) {
+//     event.preventDefault();
+//     this.blur();
+//   }
+//   var id = $(this).closest('.idea-card')[0].id;
+//   var body = $(this).text();
+//   ideaArray.forEach(function(card) {
+//     if (card.id == id) {
+//       card.body = body;
+//     }
+//   });
+//   sendIdeaToStorage();
+// });
 
 function prependCard(idea) {
   $('.idea-stream').prepend(
@@ -141,22 +145,49 @@ function prependCard(idea) {
       </div>
     </div>`
   );
-};
+}
 
 function resetInputs() {
   $('#idea-title').val('');
   $('#idea-body').val('');
-};
+}
 
 function evalInputs() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
   if (!ideaTitle) {
     return alert("Please enter a title.");
-  } else if (!ideaBody) {
+  }
+  else if (!ideaBody) {
     return alert ("Please enter something in the body.");
-  } else {
+  }
+  else {
     addCard();
     resetInputs();
   }
-};
+}
+
+//hover functions
+function deleteHover() {
+  $(this).attr('src', 'icons/delete-hover.svg');
+}
+
+function deleteUnhover() {
+  $(this).attr('src', 'icons/delete.svg');
+}
+
+function upvoteHover() {
+  $(this).attr('src', 'icons/upvote-hover.svg');
+}
+
+function upvoteUnhover() {
+  $(this).attr('src', 'icons/upvote.svg');
+}
+
+function downvoteHover() {
+  $(this).attr('src', 'icons/downvote-hover.svg');
+}
+
+function downvoteUnhover() {
+  $(this).attr('src', 'icons/downvote.svg');
+}
