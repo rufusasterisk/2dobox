@@ -149,9 +149,20 @@ function sendIdeaToStorage(ideaArray) {
 
 function displayIdeaArray(ideaArray) {
   $('.idea-stream').empty();
+  ideaArray = filterCompletedCards(ideaArray);
   ideaArray.forEach(function(element) {
     parseData(element);
   });
+}
+
+function filterCompletedCards(rawArray){
+  var filteredArray = rawArray.filter(function(card){
+    return !card.complete;
+  })
+  if (filteredArray == null){
+    filteredArray = [];
+  }
+  return filteredArray;
 }
 
 function parseData(card){
