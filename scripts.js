@@ -41,22 +41,28 @@ function removeCard() {
 }
 
 function upvoteClick() {
+  var cardID = $(this).closest('.idea-card').attr('id');
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'swill') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
+    updateCardQuality(cardID, 'plausible');
   }
   else {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('genius');
+    updateCardQuality(cardID, 'genius');
   }
 }
 
 function downvoteClick() {
+  var cardID = $(this).closest('.idea-card').attr('id');
   var checkQualityStatus = $(this).closest('.card-quality-flex').find('.idea-quality').text();
   if (checkQualityStatus === 'genius') {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('plausible');
+    updateCardQuality(cardID, 'plausible');
   }
   else {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
+    updateCardQuality(cardID, 'swill');
   }
 }
 
@@ -65,13 +71,23 @@ function textChanged(event) {
     event.preventDefault();
     this.blur();
   }
-  var id = $(this).closest('.idea-card')[0].id;
+  var id = $(this).closest('.idea-card').attr('id');
   var title = $(this).closest('.idea-card').find('h2').text();
   var body = $(this).closest('.idea-card').find('p').text();
   updateCardText(id, title, body);
 }
 
 //internal functions
+function updateCardQuality(cardID, newQuality){
+  var ideaArray = getArrayFromStorage();
+  ideaArray.forEach(function(card) {
+    if (card.id == cardID) {
+      card.status = newQuality;
+    }
+  });
+  sendIdeaToStorage(ideaArray);
+}
+
 function addCard() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
