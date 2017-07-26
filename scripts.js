@@ -18,6 +18,7 @@ $(".idea-stream").on('click', ".delete-button", removeCard);
 $(".idea-stream").on('click', "#upvote-button", upvoteClick);
 $(".idea-stream").on('click', "#downvote-button", downvoteClick);
 $('.idea-stream').on('keyup', 'h2, p', textChanged);
+$('#search-bar').on('input', searchStorageArray);
 
 //listener functions
 function saveClick(event) {
@@ -72,6 +73,15 @@ function downvoteClick() {
     $(this).closest('.card-quality-flex').find('.idea-quality').text('swill');
     updateCardQuality(cardID, 'swill');
   }
+}
+
+function searchStorageArray(){
+  var searchArray = getArrayFromStorage();
+  var searchString = $(this).val().toLowerCase();
+  var searchResults = searchArray.filter(function(card){
+    return (card.body.toLowerCase().includes(searchString) || card.title.toLowerCase().includes(searchString));
+  });
+  displayIdeaArray(searchResults);
 }
 
 function textChanged(event) {
