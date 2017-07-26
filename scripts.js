@@ -19,6 +19,7 @@ $(".idea-stream").on('click', "#upvote-button", upvoteClick);
 $(".idea-stream").on('click', "#downvote-button", downvoteClick);
 $('.idea-stream').on('keyup', 'h2, p', textChanged);
 $('#search-bar').on('input', searchStorageArray);
+$(".idea-stream").on('click', '.complete-btn', completeClick);
 
 //listener functions
 function saveClick(event) {
@@ -95,7 +96,22 @@ function textChanged(event) {
   updateCardText(id, title, body);
 }
 
+function completeClick(){
+  console.log("completeClick");
+  var cardID = $(this).closest('.idea-card').attr('id');
+  $(this).closest('.idea-card').toggleClass('completed');
+  var ideaArray = getArrayFromStorage();
+  ideaArray.forEach(function(card){
+    if (card.id == cardID){
+      card.complete = !card.complete;
+    }
+  });
+  sendIdeaToStorage(ideaArray);
+}
+
 //internal functions
+
+
 function updateCardQuality(cardID, newQuality){
   var ideaArray = getArrayFromStorage();
   ideaArray.forEach(function(card) {
@@ -134,6 +150,7 @@ function FreshIdea(title, body) {
   this.body = body;
   this.status = "swill";
   this.id = Date.now();
+  this.complete = false;
 }
 
 function sendIdeaToStorage(ideaArray) {
@@ -159,8 +176,12 @@ function updateCardText(id, title, body) {
 };
 
 function prependCard(idea) {
+  var classList = "idea-card";
+  if (idea.complete){
+    classList = classList + " completed"
+  }
   $('.idea-stream').prepend(
-    `<div class="idea-card" id="${idea.id}">
+    `<div class="${classList}" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
         <img src="icons/delete.svg" class="card-buttons delete-button" />
@@ -171,6 +192,7 @@ function prependCard(idea) {
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
         <h3>quality: <span class="idea-quality">${idea.status}</span></h3>
       </div>
+      <button class="complete-btn" type="button" name="button">Task Complete</button>
     </div>`
   );
 }
