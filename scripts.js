@@ -25,6 +25,7 @@ $(".idea-stream").on('click', '.complete-btn', completeClick);
 //listener functions
 function toggleCheckbox(){
   $(this).parent().toggleClass("isSelected");
+  displayIdeaArray(getArrayFromStorage());
 }
 
 function saveClick(event) {
@@ -153,8 +154,26 @@ function sendIdeaToStorage(ideaArray) {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 }
 
+function getDisplayedPriorities(){
+  var priorityToShow = "";
+  $(":checkbox:checked").each(function(box){
+    priorityToShow = priorityToShow + $(this).val();
+  }, this)
+  return priorityToShow;
+}
+
+function filterCardPriority(rawArray){
+  var priorityToShow = getDisplayedPriorities();
+  filteredArray = rawArray.filter(function(card){
+    console.log(priorityToShow.includes(card.status));
+    return priorityToShow.includes(card.status);
+  })
+  return filteredArray;
+}
+
 function displayIdeaArray(ideaArray, filterComplete, filterTen) {
   $('.idea-stream').empty();
+  ideaArray = filterCardPriority(ideaArray);
   if (filterComplete){
     ideaArray = filterCompletedCards(ideaArray);
   }
