@@ -45,10 +45,6 @@ h1 {
   color: #6D6E71;
 }
 
-/*form {
-  height: 75px;
-}*/
-
 .user-inputs {
   border: solid 2px #D1D3D4;
   color: #6D6E71;
@@ -100,6 +96,13 @@ h1 {
   /*outline: none;*/
 }
 
+.filters {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #000;
+  height: 135px;
+}
+
 h4 {
   margin-bottom: 5px;
   border-bottom: 1px;
@@ -111,8 +114,6 @@ ul {
   display: flex;
   justify-content: space-between;
   padding: 2px;
-  /*border-top: 1px;
-  /*border-top-style: solid;*/*/
 }
 
 li {
@@ -178,7 +179,8 @@ li input {
 }
 
 .quality-spacing {
-  margin: 20px 0;
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 
 h2,
@@ -200,7 +202,7 @@ h2 {
 
 h3 {
   margin-left: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 p {
@@ -215,7 +217,7 @@ p {
 
 #upvote-button,
 #downvote-button {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-right: 20px;
 }
 
