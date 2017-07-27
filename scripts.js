@@ -1,5 +1,5 @@
 //on page load
-displayIdeaArray(getArrayFromStorage(), true, true);
+displayIdeaArray(getArrayFromStorage());
 
 //Listeners
 
@@ -54,7 +54,7 @@ function removeCard() {
     }
   });
   sendIdeaToStorage(ideaArray);
-  displayIdeaArray(ideaArray, true, true);
+  displayIdeaArray(ideaArray);
 }
 
 function upvoteClick(){
@@ -104,21 +104,10 @@ function completeClick(){
     }
   });
   sendIdeaToStorage(ideaArray);
-  displayIdeaArray(ideaArray, true, true);
+  displayIdeaArray(ideaArray);
 }
 
 //internal functions
-function updateCardQuality(cardID, newQuality){
-  var ideaArray = getArrayFromStorage();
-  ideaArray.forEach(function(card) {
-    if (card.id == cardID) {
-      card.status = newQuality;
-    }
-  });
-  sendIdeaToStorage(ideaArray);
-  displayIdeaArray(ideaArray, true, true);
-}
-
 function addCard() {
   var ideaTitle = $("#idea-title").val();
   var ideaBody = $("#idea-body").val();
@@ -126,89 +115,7 @@ function addCard() {
   ideaArray = getArrayFromStorage();
   ideaArray.push(newIdea);
   sendIdeaToStorage(ideaArray);
-  displayIdeaArray(ideaArray, true, true);
-}
-
-function resetInputs() {
-  $('#idea-title').val('');
-  $('#idea-body').val('');
-}
-
-function getArrayFromStorage(){
-  var ideaArray = JSON.parse(localStorage.getItem("ideaArray"));
-  if (ideaArray == null) {
-    ideaArray = [];
-  }
-  return ideaArray;
-}
-
-function FreshIdea(title, body) {
-  this.title = title;
-  this.body = body;
-  this.status = 2;
-  this.id = Date.now();
-  this.complete = false;
-}
-
-function sendIdeaToStorage(ideaArray) {
-  localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
-}
-
-function getDisplayedPriorities(){
-  var priorityToShow = "";
-  $(":checkbox:checked").each(function(box){
-    priorityToShow = priorityToShow + $(this).val();
-  }, this)
-  return priorityToShow;
-}
-
-function filterCardPriority(rawArray){
-  var priorityToShow = getDisplayedPriorities();
-  filteredArray = rawArray.filter(function(card){
-    console.log(priorityToShow.includes(card.status));
-    return priorityToShow.includes(card.status);
-  })
-  return filteredArray;
-}
-
-function displayIdeaArray(ideaArray, filterComplete, filterTen) {
-  $('.idea-stream').empty();
-  ideaArray = filterCardPriority(ideaArray);
-  if (filterComplete){
-    ideaArray = filterCompletedCards(ideaArray);
-  }
-  if (filterTen){
-    ideaArray = onlyFirstTen(ideaArray);
-  }
-  ideaArray.forEach(function(element) {
-    parseData(element);
-  });
-}
-
-function onlyFirstTen(rawArray){
-  if (rawArray.length > 10){
-    rawArray = rawArray.splice(0, 10)
-  }
-  return rawArray;
-}
-
-function filterCompletedCards(rawArray){
-  var filteredArray = rawArray.filter(function(card){
-    return !card.complete;
-  })
-  if (filteredArray == null){
-    filteredArray = [];
-  }
-  return filteredArray;
-}
-
-function parseData(card){
-  var priorityText = translateCardPriority(card.status);
-  var classList = "idea-card";
-  if (card.complete){
-    classList = "idea-card completed"
-  }
-  prependCard(card, priorityText, classList);
+  displayIdeaArray(ideaArray);
 }
 
 function updateCardText(id, title, body) {
@@ -222,14 +129,110 @@ function updateCardText(id, title, body) {
   sendIdeaToStorage(ideaArray);
 };
 
+function updateCardQuality(cardID, newQuality){
+  var ideaArray = getArrayFromStorage();
+  ideaArray.forEach(function(card) {
+    if (card.id == cardID) {
+      card.status = newQuality;
+    }
+  });
+  sendIdeaToStorage(ideaArray);
+  displayIdeaArray(ideaArray);
+}
+
+function resetInputs() {
+  $('#idea-title').val('');
+  $('#idea-body').val('');
+}
+
+function FreshIdea(title, body) {
+  this.title = title;
+  this.body = body;
+  this.status = 2;
+  this.id = Date.now();
+  this.complete = false;
+}
+
+//storage functions
+function sendIdeaToStorage(ideaArray) {
+  localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
+}
+
+function getArrayFromStorage(){
+  var ideaArray = JSON.parse(localStorage.getItem("ideaArray"));
+  if (ideaArray == null) {
+    ideaArray = [];
+  }
+  return ideaArray;
+}
+
+//display, filter, and prepend functions
+function displayIdeaArray(ideaArray) {
+  $('.idea-stream').empty();
+  ideaArray = filterCardPriority(ideaArray);
+  if (!$('.show-complete').prop('checked')){
+    ideaArray = filterCompletedCards(ideaArray);
+  }
+  if (!$('.show-all').prop('checked')){
+    ideaArray = onlyFirstTen(ideaArray);
+  }
+  ideaArray.forEach(function(element) {
+    parseData(element);
+  });
+}
+
+function filterCardPriority(rawArray){
+  var priorityToShow = getDisplayedPriorities();
+  filteredArray = rawArray.filter(function(card){
+    return priorityToShow.includes(card.status);
+  })
+  return filteredArray;
+}
+
+function getDisplayedPriorities(){
+  var priorityToShow = "";
+  $(":checkbox:checked").each(function(box){
+    priorityToShow = priorityToShow + $(this).val();
+  }, this)
+  return priorityToShow;
+}
+
+function filterCompletedCards(rawArray){
+  var filteredArray = rawArray.filter(function(card){
+    return !card.complete;
+  });
+  if (filteredArray == null){
+    filteredArray = [];
+  }
+  return filteredArray;
+}
+
+function onlyFirstTen(rawArray){
+  if (rawArray.length > 10){
+    rawArray = rawArray.splice(0, 10)
+  }
+  return rawArray;
+}
+
 function translateCardPriority(number){
   var priorityList = ['None', 'Low', 'Normal', 'High', 'Critical'];
   return priorityList[number];
 }
 
-function prependCard(idea, priorityText, classList) {
+function parseData(card){
+  var priorityText = translateCardPriority(card.status);
+  var buttonText = "Task Complete"
+  var classList = "idea-card";
+  if (card.complete){
+    classList = "idea-card completed"
+    buttonText = "Uncomplete"
+  }
+  prependCard(card, priorityText, classList, buttonText);
+}
+
+function prependCard(idea, priorityText, classList, buttonText) {
   $('.idea-stream').prepend(
-    `<div class="${classList}" data-priority="${idea.status}"" id="${idea.id}">
+    `<div class="${classList}" data-priority="${idea.status}" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
         <img src="icons/delete.svg" class="card-buttons delete-button" />
@@ -238,9 +241,9 @@ function prependCard(idea, priorityText, classList) {
       <div class="card-quality-flex quality-spacing">
         <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
-        <h3>quality: <span class="idea-quality">${priorityText}</span></h3>
+        <h3>Priority: <span class="idea-quality">${priorityText}</span></h3>
+        <button class="complete-btn" type="button" name="button">${buttonText}</button>
       </div>
-      <button class="complete-btn" type="button" name="button">Task Complete</button>
     </div>`
   );
 }

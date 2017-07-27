@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,59 +8,81 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet" />
   </head>
-
   <body>
     <div class="container">
       <section class="blue-box">
         <article class="idea-log">
-          <h1><span class="idea-text">idea</span><span class="box-text">box</span></h1>
+          <h1><span class="idea-text">2Do</span><span class="box-text">box</span></h1>
           <form>
             <input id="idea-title" class="user-inputs" type="text" name="title" placeholder="Title" />
-            <input id="idea-body" class="user-inputs" type="text" name="body" placeholder="Body" />
+            <input id="idea-body" class="user-inputs" type="text" name="body" placeholder="Task" />
             <button id="save-button" class="user-inputs" type="submit" disabled />save</button>
           </form>
         </article>
       </section>
       <section class="white-box search-box">
         <article class="idea-log">
-          <form>
+          <form class="filters">
             <h4 id="show-priorities">Show Priorities</h4>
             <ul aria-labelledby="show-priorities">
               <li>
-                <label class="isSelected"><input type="checkbox" value="0" checked class="priority-none">
-                  None</label>
+                <label class="isSelected">
+                  <input type="checkbox" value="0" checked class="priority-none">
+                  None
+                </label>
               </li>
               <li>
-                <label class="isSelected"><input type="checkbox" value="1" checked class="priority-low">
-                  Low</label>
+                <label class="isSelected">
+                  <input type="checkbox" value="1" checked class="priority-low">
+                  Low
+                </label>
               </li>
               <li>
-                <label class="isSelected"><input type="checkbox" value="2" checked class="priority-normal">
-                  Normal</label>
+                <label class="isSelected">
+                  <input type="checkbox" value="2" checked class="priority-normal">
+                  Normal
+                </label>
               </li>
               <li>
-                <label class="isSelected"><input type="checkbox" value="3" checked class="priority-high">
-                  High</label>
+                <label class="isSelected">
+                  <input type="checkbox" value="3" checked class="priority-high">
+                  High
+                </label>
               </li>
               <li>
-                <label class="isSelected"><input type="checkbox" value="4" checked class="priority-critical">
-                  Critical</label>
+                <label class="isSelected">
+                  <input type="checkbox" value="4" checked class="priority-critical">
+                  Critical
+                </label>
               </li>
             </ul>
-            <input id="search-bar" class="user-inputs" type="text" name="search" placeholder="Search" />
+            <input id="search-bar" class="user-inputs" type="text" name="search" placeholder="Filter" />
+            <ul class="two-btn">
+              <li>
+                <label class="big-btn">
+                  <input type="checkbox" name="" value="" class="show-all">
+                Show more TODOs...
+                </label>
+              </li>
+              <li>
+                <label class="big-btn">
+                  <input type="checkbox" name="" value="" class="show-complete">
+                  Show Completed
+                </label>
+              </li>
+            </ul>
           </form>
         </article>
       </section>
-      <section class="white-box">
-        <article class="idea-log idea-stream" >
-
-        </article>
+      <section class="idea-log idea-stream">
       </section>
+      <!-- <section class="white-box">
+        <article class="idea-log idea-stream">
+        </article>
+      </section> -->
     </div>
-
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="path/to/your/jquery.min.js"><\/script>')</script>
+    <script>window.jQuery || document.write('<script src="jquery-3.2.1.js"><\/script>')</script>
     <script src=scripts.js></script>
   </body>
-
 </html>
