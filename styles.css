@@ -45,9 +45,9 @@ h1 {
   color: #6D6E71;
 }
 
-form {
+/*form {
   height: 75px;
-}
+}*/
 
 .user-inputs {
   border: solid 2px #D1D3D4;
@@ -100,6 +100,49 @@ form {
   outline: none;
 }
 
+h4 {
+  margin-bottom: 5px;
+  border-bottom: 1px;
+  border-bottom-style: solid;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+  /*border-top: 1px;
+  /*border-top-style: solid;*/*/
+}
+
+li {
+  display: inline-block;
+  text-align: center;
+}
+li label {
+  padding: 5px 10px;
+  background-color: #00a79d;
+  color: #fff;
+  width: 90px;
+}
+
+.isSelected {
+  background-color: #045e55;
+}
+
+.isSelected:hover{
+  background-color: #00a79d;
+}
+
+li label:hover {
+  background-color: #045E55;
+}
+
+li input {
+  position: relative;
+  bottom: 1px;
+}
+
 #search-bar {
   margin: 25px 0;
 }
@@ -107,6 +150,7 @@ form {
 .white-box {
   margin: 0;
   width: 100%;
+  height: 100px;
 }
 
 .idea-card {
@@ -140,6 +184,12 @@ h2,
 h3 {
   color: #6D6E71;
   font-family: "Roboto Slab";
+}
+
+.completed h2,
+.completed h3,
+.completed p {
+  text-decoration: line-through;
 }
 
 h2 {
