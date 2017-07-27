@@ -100,6 +100,49 @@ form {
   outline: none;
 }
 
+h4 {
+  margin: 5px 0px;
+  border-bottom: 1px;
+  border-bottom-style: solid;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+  /*border-top: 1px;
+  /*border-top-style: solid;*/*/
+}
+
+li {
+  display: inline-block;
+  text-align: center;
+}
+li label {
+  padding: 5px 10px;
+  background-color: #00a79d;
+  color: #fff;
+  width: 90px;
+}
+
+.isSelected {
+  background-color: #045e55;
+}
+
+.isSelected:hover{
+  background-color: #00a79d;
+}
+
+li label:hover {
+  background-color: #045E55;
+}
+
+li input {
+  position: relative;
+  bottom: 1px;
+}
+
 #search-bar {
   margin: 25px 0;
 }

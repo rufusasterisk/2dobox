@@ -12,6 +12,7 @@ $(document).on('mouseenter', '#downvote-button', downvoteHover);
 $(document).on('mouseleave', '#downvote-button', downvoteUnhover);
 
 //element listeners
+$("input[type='checkbox']").on('click', toggleCheckbox);
 $("#save-button").on('click', saveClick);
 $("#idea-body, #idea-title").keyup(saveEnableTest);
 $(".idea-stream").on('click', ".delete-button", removeCard);
@@ -22,6 +23,10 @@ $('#search-bar').on('input', searchStorageArray);
 $(".idea-stream").on('click', '.complete-btn', completeClick);
 
 //listener functions
+function toggleCheckbox(){
+  $(this).parent().toggleClass("isSelected");
+}
+
 function saveClick(event) {
   event.preventDefault();
   addCard();
