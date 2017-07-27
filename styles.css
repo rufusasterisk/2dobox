@@ -17,6 +17,7 @@ body {
 }
 
 .blue-box {
+  z-index: 2;
   background-color: #E5F3F2;
   height: 255px;
   position: sticky;
@@ -112,6 +113,7 @@ h4 {
 ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 2px;
 }
@@ -291,12 +293,36 @@ p {
     padding-bottom: 75px;
   }
 
+  .filters {
+    height: 152px;
+  }
+
+  ul {
+    justify-content: space-around;
+  }
+
+  li label {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 3px;
+    width: 120px;
+    display: inline-block;
+  }
+
+  ul.two-btn {
+    justify-content: space-between;
+  }
+
+  li .big-btn {
+    width: 210px;
+  }
+
   .search-box {
     margin-bottom: 40px;
   }
 
   #search-bar {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
 
   h2 {
