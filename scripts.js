@@ -165,7 +165,6 @@ function getDisplayedPriorities(){
 function filterCardPriority(rawArray){
   var priorityToShow = getDisplayedPriorities();
   filteredArray = rawArray.filter(function(card){
-    console.log(priorityToShow.includes(card.status));
     return priorityToShow.includes(card.status);
   })
   return filteredArray;
@@ -174,10 +173,10 @@ function filterCardPriority(rawArray){
 function displayIdeaArray(ideaArray, filterComplete, filterTen) {
   $('.idea-stream').empty();
   ideaArray = filterCardPriority(ideaArray);
-  if (filterComplete){
+  if (!$('.show-complete').prop('checked')){
     ideaArray = filterCompletedCards(ideaArray);
   }
-  if (filterTen){
+  if (!$('.show-all').prop('checked')){
     ideaArray = onlyFirstTen(ideaArray);
   }
   ideaArray.forEach(function(element) {
@@ -204,11 +203,13 @@ function filterCompletedCards(rawArray){
 
 function parseData(card){
   var priorityText = translateCardPriority(card.status);
+  var buttonText = "Task Complete"
   var classList = "idea-card";
   if (card.complete){
     classList = "idea-card completed"
+    buttonText = "Uncomplete"
   }
-  prependCard(card, priorityText, classList);
+  prependCard(card, priorityText, classList, buttonText);
 }
 
 function updateCardText(id, title, body) {
@@ -227,9 +228,9 @@ function translateCardPriority(number){
   return priorityList[number];
 }
 
-function prependCard(idea, priorityText, classList) {
+function prependCard(idea, priorityText, classList, buttonText) {
   $('.idea-stream').prepend(
-    `<div class="${classList}" data-priority="${idea.status}"" id="${idea.id}">
+    `<div class="${classList}" data-priority="${idea.status}" id="${idea.id}">
       <div class="card-title-flex">
         <h2 contenteditable=true>${idea.title}</h2>
         <img src="icons/delete.svg" class="card-buttons delete-button" />
@@ -238,9 +239,9 @@ function prependCard(idea, priorityText, classList) {
       <div class="card-quality-flex quality-spacing">
         <img src="icons/upvote.svg" class="card-buttons" id="upvote-button"/>
         <img src="icons/downvote.svg"  class="card-buttons" id="downvote-button" />
-        <h3>quality: <span class="idea-quality">${priorityText}</span></h3>
+        <h3>Priority: <span class="idea-quality">${priorityText}</span></h3>
+        <button class="complete-btn" type="button" name="button">${buttonText}</button>
       </div>
-      <button class="complete-btn" type="button" name="button">Task Complete</button>
     </div>`
   );
 }
