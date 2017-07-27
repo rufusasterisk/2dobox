@@ -1,5 +1,5 @@
 //on page load
-displayIdeaArray(getArrayFromStorage());
+displayIdeaArray(getArrayFromStorage(), true, true);
 
 //Listeners
 
@@ -41,7 +41,6 @@ function saveEnableTest() {
 
 function removeCard() {
   var cardID = $(this).closest('.idea-card').attr('id');
-  // $(this).closest('.idea-card').remove();
   var ideaArray = getArrayFromStorage();
   ideaArray.forEach(function(card, index) {
     if (card.id == cardID) {
@@ -49,7 +48,7 @@ function removeCard() {
     }
   });
   sendIdeaToStorage(ideaArray);
-  displayIdeaArray(getArrayFromStorage());
+  displayIdeaArray(ideaArray, true, true);
 }
 
 function upvoteClick(){
@@ -76,7 +75,7 @@ function searchStorageArray(){
   var searchResults = searchArray.filter(function(card){
     return (card.body.toLowerCase().includes(searchString) || card.title.toLowerCase().includes(searchString));
   });
-  displayIdeaArray(searchResults);
+  displayIdeaArray(searchResults, true, true);
 }
 
 function textChanged(event) {
@@ -99,7 +98,7 @@ function completeClick(){
     }
   });
   sendIdeaToStorage(ideaArray);
-  displayIdeaArray(getArrayFromStorage());
+  displayIdeaArray(ideaArray, true, true);
 }
 
 //internal functions
@@ -111,7 +110,7 @@ function updateCardQuality(cardID, newQuality){
     }
   });
   sendIdeaToStorage(ideaArray);
-  displayIdeaArray(getArrayFromStorage());
+  displayIdeaArray(ideaArray, true, true);
 }
 
 function addCard() {
@@ -121,7 +120,7 @@ function addCard() {
   ideaArray = getArrayFromStorage();
   ideaArray.push(newIdea);
   sendIdeaToStorage(ideaArray);
-  displayIdeaArray(getArrayFromStorage());
+  displayIdeaArray(ideaArray, true, true);
 }
 
 function resetInputs() {
@@ -149,10 +148,14 @@ function sendIdeaToStorage(ideaArray) {
   localStorage.setItem("ideaArray", JSON.stringify(ideaArray));
 }
 
-function displayIdeaArray(ideaArray) {
+function displayIdeaArray(ideaArray, filterComplete, filterTen) {
   $('.idea-stream').empty();
-  ideaArray = filterCompletedCards(ideaArray);
-  ideaArray = onlyFirstTen(ideaArray);
+  if (filterComplete){
+    ideaArray = filterCompletedCards(ideaArray);
+  }
+  if (filterTen){
+    ideaArray = onlyFirstTen(ideaArray);
+  }
   ideaArray.forEach(function(element) {
     parseData(element);
   });
