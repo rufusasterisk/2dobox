@@ -27,6 +27,7 @@ function saveClick(event) {
   addCard();
   resetInputs();
   saveEnableTest();
+  $('#idea-title').focus();
 }
 
 function saveEnableTest() {
@@ -40,7 +41,7 @@ function saveEnableTest() {
 
 function removeCard() {
   var cardID = $(this).closest('.idea-card').attr('id');
-  $(this).closest('.idea-card').remove();
+  // $(this).closest('.idea-card').remove();
   var ideaArray = getArrayFromStorage();
   ideaArray.forEach(function(card, index) {
     if (card.id == cardID) {
@@ -48,6 +49,7 @@ function removeCard() {
     }
   });
   sendIdeaToStorage(ideaArray);
+  displayIdeaArray(getArrayFromStorage());
 }
 
 function upvoteClick(){
@@ -150,9 +152,17 @@ function sendIdeaToStorage(ideaArray) {
 function displayIdeaArray(ideaArray) {
   $('.idea-stream').empty();
   ideaArray = filterCompletedCards(ideaArray);
+  ideaArray = onlyFirstTen(ideaArray);
   ideaArray.forEach(function(element) {
     parseData(element);
   });
+}
+
+function onlyFirstTen(rawArray){
+  if (rawArray.length > 10){
+    rawArray = rawArray.splice(0, 10)
+  }
+  return rawArray;
 }
 
 function filterCompletedCards(rawArray){
